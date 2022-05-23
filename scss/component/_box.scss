@@ -14,32 +14,42 @@ img {
     width: 100px;
 }
 
-.card {
-    display: inline-block;
-    border: 2px solid $primaryColorLight;
+.card,
+input {
     border-radius: 5px;
+}
+
+.card {
+    border: 2px solid $primaryColorLight;
     padding: 1rem;
     background-color: $backgroundColorLight;
-    min-width: 350px;
+    max-width: 350px;
 }
 
 #body-wrap {
-    margin: 0 auto;
     max-width: 1100px;
+    margin: 0 2rem 0 1rem;
+}
+
+main {
+    margin: 0 auto;
 }
 
 input {
     border: 1px solid $primaryColor;
-    border-radius: 5px;
     padding: 0 1rem;
-    // width: 40%;
     min-width: 80px;
     max-height: 2rem;
 }
 
-body {
+body,
+#overlay {
     width: 100vw;
     height: 100vh;
+}
+
+body {
+    
     background-color: $backgroundColor;
 }
 
@@ -47,8 +57,6 @@ body {
     position: fixed;
     z-index: 2;
     background-color: $backgroundOverlay;
-    width: 100vw;
-    height: 100vh;
     top: 0;
     left: 0;
 }       
@@ -57,8 +65,8 @@ body {
     position: relative;
     margin: auto;
     padding: 1rem;
-    width: 30%;
-    top: 30%;
+    width: 50%;
+    top: 12%;
     background-color: white;
     border: 0 solid $primaryColorLight;
     border-radius: 5px;

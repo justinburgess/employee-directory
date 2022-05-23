@@ -1,9 +1,24 @@
+/*
+*    global variables
+*/
+
+// selectors
 const mainSelector = document.querySelector('main');
 const searchSelector = document.getElementById('search');
 let switchSelector;
+
+// stores current page data -- does not store session data
 let employeeData;
 
+
+//  populate page with employee data
 fetchEmployee(12);
+
+/*
+*    functions
+*/
+
+// obtains employee data from API, stores data and creates employee cards in the DOM
 
 function fetchEmployee(employeeCount) {
      fetch(`https://randomuser.me/api/?results=${employeeCount}&inc=name,email,location,cell,dob,picture`)
@@ -12,6 +27,8 @@ function fetchEmployee(employeeCount) {
           .then(object => createEmployeeCards(object))
           .catch(error => console.log('Woops! Looks like there was a problem.', error));
 }
+
+// creates and stores object data
 
 function createEmployeesObject(data) {
      let employees = [];
@@ -32,6 +49,7 @@ function createEmployeesObject(data) {
      return employees;
 }
 
+// creates card html
 function createEmployeeHTML(employee) {
      let employeeHTML = `
                <div class="card" tabindex="0">
@@ -46,7 +64,7 @@ function createEmployeeHTML(employee) {
      return employeeHTML;
 }
 
-
+// updates DOM with card html
 function createEmployeeCards(employees) {
      html = '';
      employees.forEach(employee => {
@@ -55,6 +73,7 @@ function createEmployeeCards(employees) {
      mainSelector.innerHTML = html;
 }
 
+// returns employee data based on employee name
 function getEmployeeData(employeeName) {
      for (let i = 0; i < employeeData.length; i++){
           if(employeeData[i].name === employeeName){
@@ -63,6 +82,7 @@ function getEmployeeData(employeeName) {
      }
 }
 
+// deletes current employee overlay modal window
 function checkOverlayExists(){
      firstElement = mainSelector.firstElementChild;
      if(firstElement.id === 'overlay'){
@@ -70,6 +90,7 @@ function checkOverlayExists(){
      };
 }
 
+// creates html for employee modal window and inserts into DOM
 function createEmployeeOverlay(employee){
      let employeeHTML = `
      <div id="overlay">
@@ -84,8 +105,8 @@ function createEmployeeOverlay(employee){
                     <p>${employee.address}</p>
                     <p>${employee.birthday}</p>
                     <div class=lightbox-switch-employee>
-                         <p class="back">&lt;</p>
-                         <p class="forward">&gt;</p>
+                         <p class="back">&lt; Previous</p>
+                         <p class="forward">Next &gt;</p>
                     </div>
                </div>
           </div>
@@ -94,6 +115,7 @@ function createEmployeeOverlay(employee){
      mainSelector.insertAdjacentHTML("afterbegin",employeeHTML);
 }
 
+// switches to a new employee and recursively resets modal window when modal selection changed
 function setEventListener(employee){
      switchSelector.addEventListener('click', (e) => {
           target = e.target;
@@ -114,6 +136,11 @@ function setEventListener(employee){
      });
 }
 
+/*
+*    listeners
+*/
+
+// changes modal window employee selection by focus
 document.addEventListener( 'focus', (e) => {
      target = e.target;
      if(target.className === 'card'){
@@ -130,6 +157,7 @@ document.addEventListener( 'focus', (e) => {
      }
 }, true);
 
+// closes modal window when 'X' is clicked
 document.addEventListener('click', (e) => {
      target = e.target;
      if(target.className === 'close'){
@@ -137,6 +165,7 @@ document.addEventListener('click', (e) => {
      }
 });
 
+// searches employee names as user enters input data
 searchSelector.addEventListener('input', (e) => {
      const name = e.target.value;
      let employees = [];

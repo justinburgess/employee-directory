@@ -1,5 +1,11 @@
-header {
+header,
+main,
+.card,
+.lightbox-switch-employee {
     display: grid;
+}
+
+header {
     grid-template-columns: 1fr 1fr;
     grid-template-areas: 'h1 input';
     align-items: baseline;
@@ -15,32 +21,31 @@ header input {
 }
 
 main {
-    display: grid;
     justify-content: space-between;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 1rem;
+}
+
+.card,
+.lightbox-switch-employee {
+    grid-template-columns: 1fr 1fr;
+    place-content: center;
 }
 
 .card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-template-areas: 'img employee-info';
-    place-content: center;
-}
-
-.card img {
-    grid-area: img;
-}
-
-.card .employee-info {
-    grid-area: employee-info;
+    
+    .card img {
+        grid-area: img;
+    }
+    
+    .card .employee-info {
+        grid-area: employee-info;
+    }
 }
 
 .lightbox-switch-employee {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-template-areas: 'back forward';
-    place-content: center;
 
     .back {
         grid-area: back;

@@ -359,7 +359,7 @@ h1 {
 }
 
 a, p {
-  font-size: 14px;
+  font-size: 13px;
   color: rgb(128, 128, 128);
 }
 
@@ -388,31 +388,41 @@ img {
   width: 100px;
 }
 
-.card {
-  display: inline-block;
-  border: 2px solid #b3b3b3;
+.card,
+input {
   border-radius: 5px;
+}
+
+.card {
+  border: 2px solid #b3b3b3;
   padding: 1rem;
   background-color: rgba(255, 255, 255, 0.4);
-  min-width: 350px;
+  max-width: 350px;
 }
 
 #body-wrap {
-  margin: 0 auto;
   max-width: 1100px;
+  margin: 0 2rem 0 1rem;
+}
+
+main {
+  margin: 0 auto;
 }
 
 input {
   border: 1px solid rgb(128, 128, 128);
-  border-radius: 5px;
   padding: 0 1rem;
   min-width: 80px;
   max-height: 2rem;
 }
 
-body {
+body,
+#overlay {
   width: 100vw;
   height: 100vh;
+}
+
+body {
   background-color: rgba(250, 244, 235, 0.4);
 }
 
@@ -420,8 +430,6 @@ body {
   position: fixed;
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.6);
-  width: 100vw;
-  height: 100vh;
   top: 0;
   left: 0;
 }
@@ -430,8 +438,8 @@ body {
   position: relative;
   margin: auto;
   padding: 1rem;
-  width: 30%;
-  top: 30%;
+  width: 50%;
+  top: 12%;
   background-color: white;
   border: 0 solid #b3b3b3;
   border-radius: 5px;
@@ -446,8 +454,14 @@ body {
   padding-top: 1rem;
 }
 
-header {
+header,
+main,
+.card,
+.lightbox-switch-employee {
   display: grid;
+}
+
+header {
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "h1 input";
   align-items: baseline;
@@ -463,32 +477,29 @@ header input {
 }
 
 main {
-  display: grid;
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1rem;
 }
 
-.card {
-  display: grid;
+.card,
+.lightbox-switch-employee {
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: "img employee-info";
   place-content: center;
 }
 
-.card img {
+.card {
+  grid-template-areas: "img employee-info";
+}
+.card .card img {
   grid-area: img;
 }
-
-.card .employee-info {
+.card .card .employee-info {
   grid-area: employee-info;
 }
 
 .lightbox-switch-employee {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-template-areas: "back forward";
-  place-content: center;
 }
 .lightbox-switch-employee .back {
   grid-area: back;
