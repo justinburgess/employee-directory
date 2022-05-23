@@ -1,0 +1,52 @@
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'h1 input';
+    align-items: baseline;
+}
+
+header h1 {
+    grid-area: h1;
+}
+
+header input {
+    grid-area: input;
+    justify-self: end ;
+}
+
+main {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'img employee-info';
+    place-content: center;
+}
+
+.card img {
+    grid-area: img;
+}
+
+.card .employee-info {
+    grid-area: employee-info;
+}
+
+.lightbox-switch-employee {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'back forward';
+    place-content: center;
+
+    .back {
+        grid-area: back;
+    }
+
+    .forward {
+        grid-area: forward;
+    }
+}
