@@ -422,8 +422,11 @@ input {
 
 body,
 #overlay {
-  width: 100vw;
   height: 100vh;
+}
+
+#overlay {
+  width: 100vw;
 }
 
 body {
@@ -442,7 +445,7 @@ body {
   position: relative;
   margin: auto;
   padding: 1rem;
-  width: 50%;
+  width: 400px;
   top: 12%;
   background-color: white;
   border: 0 solid #b3b3b3;
