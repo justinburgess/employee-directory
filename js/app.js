@@ -6,6 +6,7 @@
 const mainSelector = document.querySelector('main');
 const searchSelector = document.getElementById('search');
 const overlaySelector = document.getElementById('overlay');
+const cardsSelector = document.getElementById('cards');
 
 // stores current page data -- does not store session data
 let employeeData;
@@ -61,17 +62,17 @@ function createEmployeeHtml(employee){
                          <p>${employee.city}</p>
                     </div>
                </div>
-          `
+          `;
      return employeeHTML;
 }
 
 // updates DOM with card html
 function createEmployeeCards(employees){
-     html = '';
+     let html = '';
      employees.forEach(employee => {
           html += createEmployeeHtml(employee);
      });
-     mainSelector.insertAdjacentHTML('beforeend', html);
+     cardsSelector.insertAdjacentHTML('afterbegin', html);
 }
 
 // returns employee data based on employee name
@@ -103,8 +104,16 @@ function createEmployeeOverlayHtml(employee){
                </div>
           </div>
      
-     `
-     return employeeHTML
+     `;
+     return employeeHTML;
+}
+
+function checkEmployeeIndex(employeeIndex){
+     if(employeeIndex >= 11){
+          document.querySelector('.forward').remove();
+     } else if(employeeIndex <= 0){
+          document.querySelector('.backward').remove();
+     }
 }
 
 function openModalWindow(target){
@@ -115,11 +124,7 @@ function openModalWindow(target){
           overlaySelector.firstElementChild.remove();
      }
      overlaySelector.insertAdjacentHTML('afterbegin', employeeOverlayHtml);
-     if(employeeData.indexOf(employee) === 11){
-          document.querySelector('.forward').remove();
-     } else if(employeeData.indexOf(employee) === 0){
-          document.querySelector('.backward').remove();
-     }
+     checkEmployeeIndex(employeeData.indexOf(employee));
      overlaySelector.style.display = '';
 }
 
@@ -130,11 +135,7 @@ function switchEmployeeOverlay(className){
      const employeeOverlayHtml = createEmployeeOverlayHtml(employeeData[nextEmployeeIndex]);
      overlaySelector.firstElementChild.remove();
      overlaySelector.insertAdjacentHTML('afterbegin', employeeOverlayHtml);
-     if(nextEmployeeIndex >= 11){
-          document.querySelector('.forward').remove();
-     } else if(nextEmployeeIndex <= 0){
-          document.querySelector('.backward').remove();
-     }
+     checkEmployeeIndex(nextEmployeeIndex);
 }
 
 // /*
@@ -145,7 +146,7 @@ function switchEmployeeOverlay(className){
 document.addEventListener('focus', (e) => {
      const target = e.target;
      if(target.className === 'card'){
-          openModalWindow(target)
+          openModalWindow(target);
      }
 }, true);
 
@@ -158,7 +159,7 @@ overlaySelector.addEventListener('click', (e) => {
 
 // closes modal window when 'X' is clicked
 document.addEventListener('click', (e) => {
-     target = e.target;
+     const target = e.target;
      if(target.className === 'close'){
           overlaySelector.firstElementChild.remove();
           overlaySelector.style.display = 'none';
@@ -169,10 +170,12 @@ document.addEventListener('click', (e) => {
 searchSelector.addEventListener('input', (e) => {
      const name = e.target.value;
      let employees = [];
+     console.log(employees);
      for(let i = 0; i < employeeData.length; i++){
           if(employeeData[i].name.toLowerCase().includes(name.toLowerCase())){
                employees.push(employeeData[i]);
           }
      }
+     cardsSelector.replaceChildren();
      createEmployeeCards(employees);
 });

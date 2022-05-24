@@ -1,5 +1,5 @@
 header,
-main,
+#cards,
 .card,
 .lightbox-switch-employee {
     display: grid;
@@ -20,7 +20,7 @@ header input {
     justify-self: end ;
 }
 
-main {
+#cards {
     justify-content: space-between;
     grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
     gap: 1rem;
