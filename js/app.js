@@ -2,24 +2,23 @@
 *    global variables
 */
 
-// selectors
-const mainSelector = document.querySelector('main');
+//   selectors
 const searchSelector = document.getElementById('search');
 const overlaySelector = document.getElementById('overlay');
 const cardsSelector = document.getElementById('cards');
 
-// stores current page data -- does not store session data
+//   stores current page data -- does not store session data
 let employeeData;
 
 
-//  populate page with employee data
+//   populate page with employee data
 fetchEmployee(12);
 
 /*
 *    functions
 */
 
-// obtains employee data from API, stores data and creates employee cards in the DOM
+//   obtains employee data from API, stores data and creates employee cards in the DOM
 function fetchEmployee(employeeCount){
      fetch(`https://randomuser.me/api/?results=${employeeCount}&inc=name,email,location,cell,dob,picture`)
           .then(response => response.json())
@@ -28,13 +27,13 @@ function fetchEmployee(employeeCount){
           .catch(error => console.log('Woops! Looks like there was a problem.', error));
 }
 
-// creates and stores object data for current page
+//   creates and stores object data for current page
 function createEmployeesObject(data){
      let employees = [];
      for(let i = 0; i < data.length; i++) {
           const birthday = new Date(data[i].dob.date);
-          const birthMonth = birthday.getMonth().toString().length === 1 ? '0' + birthday.getMonth().toString() : birthday.getMonth().toString();
-          const birthDay = birthday.getDay().toString().length === 1 ? '0' + birthday.getDay().toString() : birthday.getDay().toString();
+          const birthMonth = (birthday.getMonth() + 1).toString().padStart(2,'0');
+          const birthDay = birthday.getDate().toString().padStart(2,'0');
           const birthYear = birthday.getFullYear().toString().slice(2,4);
           const employee = {
                name: `${data[i].name.first} ${data[i].name.last}`,
@@ -43,6 +42,7 @@ function createEmployeesObject(data){
                city: data[i].location.city,
                address: `${data[i].location.street.number} ${data[i].location.street.name} ${data[i].location.city}, ${data[i].location.state} ${data[i].location.postcode}`,
                birthday: `${birthMonth}/${birthDay}/${birthYear}`,
+               birthdayData: birthday,
                picture: data[i].picture.large
           };
           employees.push(employee);
@@ -51,7 +51,7 @@ function createEmployeesObject(data){
      return employees;
 }
 
-// creates card html
+//   creates card html
 function createEmployeeHtml(employee){
      let employeeHTML = `
                <div class="card" tabindex="0">
@@ -66,7 +66,7 @@ function createEmployeeHtml(employee){
      return employeeHTML;
 }
 
-// updates DOM with card html
+//   updates DOM with card html
 function createEmployeeCards(employees){
      let html = '';
      employees.forEach(employee => {
@@ -75,16 +75,13 @@ function createEmployeeCards(employees){
      cardsSelector.insertAdjacentHTML('afterbegin', html);
 }
 
-// returns employee data based on employee name
+//   returns employee data based on employee name
 function getEmployeeData(employeeName){
-     for (let i = 0; i < employeeData.length; i++){
-          if(employeeData[i].name === employeeName){
-               return employeeData[i];
-          }
-     }
+     const employee = employeeData.filter(data => data.name === employeeName);
+     return employee[0];
 }
 
-// creates html for employee modal window and inserts into DOM
+//   creates html for employee modal window and inserts into DOM
 function createEmployeeOverlayHtml(employee){
      let employeeHTML = `
           <div id="lightbox-card">
@@ -108,6 +105,7 @@ function createEmployeeOverlayHtml(employee){
      return employeeHTML;
 }
 
+//   removes next or previous modal buttons if at begin or end of employees
 function checkEmployeeIndex(employeeIndex){
      if(employeeIndex >= 11){
           document.querySelector('.forward').remove();
@@ -116,6 +114,7 @@ function checkEmployeeIndex(employeeIndex){
      }
 }
 
+//   opens modal window when card is selected
 function openModalWindow(target){
      const employeeName = target.firstElementChild.nextElementSibling.firstElementChild.textContent;
      const employee = getEmployeeData(employeeName);
@@ -128,10 +127,12 @@ function openModalWindow(target){
      overlaySelector.style.display = '';
 }
 
+//   switches employee data in modal window based on button selected
 function switchEmployeeOverlay(className){
      const employeeName = overlaySelector.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
      const employee = getEmployeeData(employeeName);
-     const nextEmployeeIndex =  className === 'forward' ? employeeData.indexOf(employee) + 1 : employeeData.indexOf(employee) - 1;
+     const employeeIndex = employeeData.indexOf(employee);
+     const nextEmployeeIndex =  className === 'forward' ? employeeIndex + 1 : employeeIndex - 1;
      const employeeOverlayHtml = createEmployeeOverlayHtml(employeeData[nextEmployeeIndex]);
      overlaySelector.firstElementChild.remove();
      overlaySelector.insertAdjacentHTML('afterbegin', employeeOverlayHtml);
@@ -142,7 +143,7 @@ function switchEmployeeOverlay(className){
 // *    listeners
 // */
 
-//
+//   opens modal window when card is focused
 document.addEventListener('focus', (e) => {
      const target = e.target;
      if(target.className === 'card'){
@@ -150,6 +151,7 @@ document.addEventListener('focus', (e) => {
      }
 }, true);
 
+//   switches employee info displayed in modal window
 overlaySelector.addEventListener('click', (e) => {
      const target = e.target;
      if(target.className === 'forward' || target.className === 'backward'){
@@ -157,7 +159,7 @@ overlaySelector.addEventListener('click', (e) => {
      }
 });
 
-// closes modal window when 'X' is clicked
+//   closes modal window when 'X' is clicked
 document.addEventListener('click', (e) => {
      const target = e.target;
      if(target.className === 'close'){
@@ -166,11 +168,10 @@ document.addEventListener('click', (e) => {
      }
 });
 
-// searches employee names as user enters input data
+//   searches employee names as user enters input data
 searchSelector.addEventListener('input', (e) => {
      const name = e.target.value;
      let employees = [];
-     console.log(employees);
      for(let i = 0; i < employeeData.length; i++){
           if(employeeData[i].name.toLowerCase().includes(name.toLowerCase())){
                employees.push(employeeData[i]);

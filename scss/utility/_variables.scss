@@ -4,5 +4,5 @@ $primaryColor: rgb(128, 128, 128);
 $primaryColorLight: lighten($primaryColor, 20%);
 $primaryColorDark: darken($primaryColor, 20%);
 $backgroundColor: rgba(250, 244, 235, 0.4);
-$backgroundColorLight: lighten($backgroundColor, 10%);
+$backgroundColorLight: rgba(255, 255, 255, 0.514);
 $backgroundOverlay: darken(rgba(128, 128, 128, 0.6), 80%);

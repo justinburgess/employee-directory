@@ -394,7 +394,7 @@ input {
 
 .card {
   border: 2px solid #b3b3b3;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.514);
   min-width: 350px;
   max-width: 350px;
   margin: 0 auto;
